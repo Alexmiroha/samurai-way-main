@@ -1,3 +1,13 @@
 .App {
   text-align: center;
 }
+
+.TodolistContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.Todolist {
+  margin: 15px;
+}

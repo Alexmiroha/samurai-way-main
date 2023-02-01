@@ -1,11 +1,23 @@
 import React from 'react';
 import './App.css';
-import {Todolist} from "./Todolist/Todolist";
+import {TaskType, Todolist} from "./Todolist/Todolist";
 
 function App() {
+
+    const todoListTitle: string = 'What to learn';
+    const tasks: Array<TaskType> = [
+        {id: 1, title: 'HTML & CSS', isDone: true},
+        {id: 2, title: 'ES6 & TS', isDone: true},
+        {id: 3, title: 'REACT & REDUX', isDone: false}
+    ]
+
   return (
       <div className="App">
-          <Todolist/>
+          <div className="TodolistContainer">
+              <Todolist title={todoListTitle} task={tasks}/>
+              <Todolist title={todoListTitle} task={tasks}/>
+              <Todolist title={todoListTitle} task={tasks}/>
+          </div>
       </div>
   );
 }

@@ -12,6 +12,17 @@ export type TaskType = {
 }
 
 export const Todolist = (props: TodolistPropsType) => {
+
+    const taskItems = props.task ?
+        props.task.map((task) => {
+            return (
+                <li>
+                    <input type="checkbox" checked={task.isDone}/>
+                    <span>{task.title}</span>
+                </li>)
+        })
+        : <div>Todolist is empty</div>
+
     return (
         <div className='Todolist'>
             <h3>{props.title}</h3>
@@ -20,18 +31,7 @@ export const Todolist = (props: TodolistPropsType) => {
                 <button>+</button>
             </div>
             <ul>
-                <li>
-                    <input type="checkbox" checked={props.task[0].isDone}/>
-                    <span>{props.task[0].title}</span>
-                </li>
-                <li>
-                    <input type="checkbox" checked={props.task[1].isDone}/>
-                    <span>{props.task[1].title}</span>
-                </li>
-                <li>
-                    <input type="checkbox" checked={props.task[2].isDone}/>
-                    <span>{props.task[2].title}</span>
-                </li>
+                {taskItems}
             </ul>
             <div>
                 <button>All</button>

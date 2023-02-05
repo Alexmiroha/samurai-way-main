@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC} from "react";
 
 type TodolistPropsType = {
     title: string,
@@ -11,9 +11,8 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const Todolist = (props: TodolistPropsType) => {
-
-    const taskItems = props.task ?
+export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType) : JSX.Element => {
+    const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
         props.task.map((task) => {
             return (
                 <li>

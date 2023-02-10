@@ -8,14 +8,14 @@ function App() {
     const tasks: Array<TaskType> = [
         {id: 1, title: 'HTML & CSS', isDone: true},
         {id: 2, title: 'ES6 & TS', isDone: true},
-        {id: 3, title: 'REACT & REDUX', isDone: false}
+        {id: 3, title: 'REACT & REDUX', isDone: false},
+        {id: 4, title: 'REST API', isDone: false},
+        {id: 5, title: 'graphQL', isDone: false}
     ]
 
   return (
       <div className="App">
           <div className="TodolistContainer">
-              <Todolist title={todoListTitle} task={tasks}/>
-              <Todolist title={todoListTitle} task={tasks}/>
               <Todolist title={todoListTitle} task={tasks}/>
           </div>
       </div>

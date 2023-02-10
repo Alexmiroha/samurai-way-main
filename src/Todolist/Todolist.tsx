@@ -15,7 +15,7 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType) : JSX.
     const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
         props.task.map((task) => {
             return (
-                <li>
+                <li key={task.id}>
                     <input type="checkbox" checked={task.isDone}/>
                     <span>{task.title}</span>
                 </li>)

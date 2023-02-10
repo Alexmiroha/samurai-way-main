@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist/Todolist";
 
+export type filterValuesType = 'all' | 'active' | 'completed';
+
 function App() {
 
     let [tasks, setTasks] = useState(
@@ -13,6 +15,22 @@ function App() {
             {id: 5, title: 'graphQL', isDone: false}
         ]
     );
+
+    let [filter, setFilter] = useState<filterValuesType>('all')
+
+    const changeFilter = (value: filterValuesType) => {
+        setFilter(value)
+    }
+
+    let displayedTasks:Array<TaskType> = tasks;
+
+    if (filter === 'active') {
+        displayedTasks = displayedTasks.filter(t => t.isDone == false)
+    }
+
+    if (filter === 'completed') {
+        displayedTasks = displayedTasks.filter(t => t.isDone == true)
+    }
     
     function removeTask(id: number) {
         let newTasks = tasks.filter(t => t.id != id);
@@ -24,7 +42,7 @@ function App() {
     return (
         <div className="App">
             <div className="TodolistContainer">
-                <Todolist title={todoListTitle} task={tasks} removeTask={removeTask}/>
+                <Todolist title={todoListTitle} task={displayedTasks} removeTask={removeTask} changeFilter={changeFilter}/>
             </div>
         </div>
     );

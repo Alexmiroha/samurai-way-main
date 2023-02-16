@@ -26,11 +26,11 @@ function App() {
     let displayedTasks:Array<TaskType> = tasks;
 
     if (filter === 'active') {
-        displayedTasks = displayedTasks.filter(t => t.isDone === false)
+        displayedTasks = displayedTasks.filter(t => !t.isDone)
     }
 
     if (filter === 'completed') {
-        displayedTasks = displayedTasks.filter(t => t.isDone === true)
+        displayedTasks = displayedTasks.filter(t => t.isDone)
     }
     
     function removeTask(id: string) {
@@ -38,12 +38,22 @@ function App() {
         setTasks(newTasks);
     }
 
+    function addTask() {
+        let newTask = {id: v1(), title: 'New Task XD', isDone: false}
+        setTasks([newTask, ...tasks]);
+    }
+
     const todoListTitle: string = 'What to learn';
 
     return (
         <div className="App">
             <div className="TodolistContainer">
-                <Todolist title={todoListTitle} task={displayedTasks} removeTask={removeTask} changeFilter={changeFilter}/>
+                <Todolist title={todoListTitle}
+                          task={displayedTasks}
+                          removeTask={removeTask}
+                          changeFilter={changeFilter}
+                          addTask={addTask}
+                />
             </div>
         </div>
     );

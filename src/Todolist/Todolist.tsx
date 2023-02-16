@@ -5,7 +5,8 @@ type TodolistPropsType = {
     title: string,
     task: Array<TaskType>,
     removeTask: (taskId: string) => void,
-    changeFilter: (value: filterValuesType) => void
+    changeFilter: (value: filterValuesType) => void,
+    addTask: () => void,
 }
 
 export type TaskType = {
@@ -15,6 +16,9 @@ export type TaskType = {
 }
 
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType) : JSX.Element => {
+
+const addTaskHandler = () => {props.addTask()};
+
     const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
         props.task.map((task) => {
             return (
@@ -32,8 +36,8 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType) : JSX.
         <div className='Todolist'>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input />
+                <button onClick={() => {addTaskHandler()}}>+</button>
             </div>
             <ul>
                 {taskItems}

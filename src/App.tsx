@@ -23,22 +23,24 @@ function App() {
         setFilter(value)
     }
 
-    let displayedTasks:Array<TaskType> = tasks;
-
-    if (filter === 'active') {
-        displayedTasks = displayedTasks.filter(t => !t.isDone)
+    const getFilteredTask = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
+        let filteredTasks:Array<TaskType>;
+        if (filter === 'active') {
+            filteredTasks = tasks.filter(t => !t.isDone)
+        } else if (filter === 'completed') {
+            filteredTasks = tasks.filter(t => t.isDone)
+        } else  filteredTasks = tasks;
+        return filteredTasks
     }
 
-    if (filter === 'completed') {
-        displayedTasks = displayedTasks.filter(t => t.isDone)
-    }
-    
+    let displayedTasks: Array<TaskType> = getFilteredTask(tasks, filter)
+
     function removeTask(id: string) {
         let newTasks = tasks.filter(t => t.id !== id);
         setTasks(newTasks);
     }
 
-    function addTask(newTaskTitle:string) {
+    function addTask(newTaskTitle: string) {
         let newTask = {id: v1(), title: newTaskTitle, isDone: false}
         setTasks([newTask, ...tasks]);
     }

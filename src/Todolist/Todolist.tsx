@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, FC, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, FC, useState, ChangeEventHandler} from "react";
 import {filterValuesType} from "../App";
 
 type TodolistPropsType = {
@@ -7,6 +7,7 @@ type TodolistPropsType = {
     removeTask: (taskId: string) => void,
     changeFilter: (value: filterValuesType) => void,
     addTask: (newTaskTitle: string) => void,
+    changeTaskStatus: (id: string) => void
 }
 
 export type TaskType = {
@@ -18,6 +19,7 @@ export type TaskType = {
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
 
     let [newTaskTitle, SetNewTaskTitle] = useState('');
+    let [error, setError] = useState('')
 
     const addTaskHandler = () => {
         props.addTask(newTaskTitle);
@@ -30,13 +32,18 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         }
     }
 
+    const onChangeStatusHandler = (id: string) => {
+        props.changeTaskStatus(id)
+    }
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => SetNewTaskTitle(e.currentTarget.value);
 
     const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
         props.task.map((task) => {
+
             return (
                 <li key={task.id}>
-                    <input type="checkbox" checked={task.isDone}/>
+                    <input type="checkbox" checked={task.isDone} onChange={() => onChangeStatusHandler(task.id)}/>
                     <span>{task.title}</span>
                     <button onClick={() => {
                         props.removeTask(task.id)

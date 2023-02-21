@@ -44,6 +44,14 @@ function App() {
         let newTask = {id: v1(), title: newTaskTitle, isDone: false}
         setTasks([newTask, ...tasks]);
     }
+    
+    function changeTaskStatus(id: string) {
+        let task = tasks.find(t => t.id === id);
+        if (task) {
+            task.isDone = !task.isDone
+        }
+        setTasks([...tasks])
+    }
 
     const todoListTitle: string = 'What to learn';
 
@@ -55,6 +63,7 @@ function App() {
                           removeTask={removeTask}
                           changeFilter={changeFilter}
                           addTask={addTask}
+                          changeTaskStatus={changeTaskStatus}
                 />
             </div>
         </div>

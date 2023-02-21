@@ -18,12 +18,13 @@ export type TaskType = {
 
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
 
-    let [newTaskTitle, SetNewTaskTitle] = useState('');
-    let [error, setError] = useState('')
+    let [newTaskTitle, SetNewTaskTitle] = useState<string>('');
+    let [error, setError] = useState<string>('')
 
     const addTaskHandler = () => {
-        props.addTask(newTaskTitle);
+        newTaskTitle.trim()? props.addTask(newTaskTitle.trim()) : setError('error')
         SetNewTaskTitle('');
+        debugger
     };
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {

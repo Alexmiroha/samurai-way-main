@@ -51,7 +51,7 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.task.map((task) => {
 
             return (
-                <li key={task.id}>
+                <li className={task.isDone? 'isDone' : ''} key={task.id}>
                     <input type="checkbox" checked={task.isDone} onChange={() => onChangeStatusHandler(task.id)}/>
                     <span>{task.title}</span>
                     <button onClick={() => {

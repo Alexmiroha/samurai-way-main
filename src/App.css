@@ -28,6 +28,6 @@ input {
   background-color: #84b81f;
 }
 
-.fftyftyf {
-  content: unset;
+.isDone {
+  opacity: 50%;
 }

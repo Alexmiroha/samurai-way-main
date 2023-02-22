@@ -11,3 +11,23 @@
 .Todolist {
   margin: 15px;
 }
+
+.error {
+  color: red;
+}
+
+input {
+  outline: none;
+}
+
+.errorInput {
+  border: 1px solid red;
+}
+
+.button {
+  background-color: #84b81f;
+}
+
+.fftyftyf {
+  content: unset;
+}

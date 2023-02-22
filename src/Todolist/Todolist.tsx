@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, FC, useState, ChangeEventHandler} from "react";
+import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
 import {filterValuesType} from "../App";
 
 type TodolistPropsType = {
@@ -7,7 +7,8 @@ type TodolistPropsType = {
     removeTask: (taskId: string) => void,
     changeFilter: (value: filterValuesType) => void,
     addTask: (newTaskTitle: string) => void,
-    changeTaskStatus: (id: string) => void
+    changeTaskStatus: (id: string) => void,
+    curentFilter: string
 }
 
 export type TaskType = {
@@ -24,7 +25,6 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
     const addTaskHandler = () => {
         newTaskTitle.trim()? props.addTask(newTaskTitle.trim()) : setError('error')
         SetNewTaskTitle('');
-        debugger
     };
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -37,7 +37,15 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.changeTaskStatus(id)
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => SetNewTaskTitle(e.currentTarget.value);
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.currentTarget.value.trim() === '') {
+            setError('error')
+            SetNewTaskTitle('');
+        } else {
+            SetNewTaskTitle(e.currentTarget.value);
+            setError('')
+        }
+    }
 
     const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
         props.task.map((task) => {
@@ -62,25 +70,27 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                     value={newTaskTitle}
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
+                    className={error? 'errorInput' : ''}
                 />
                 <button onClick={() => {
                     addTaskHandler()
-                }}>+
+                }} disabled={error === 'error'}>+
                 </button>
+                {error? <div className={error}>Title is required</div>: <div>Add your task</div>}
             </div>
             <ul>
                 {taskItems}
             </ul>
             <div>
-                <button onClick={() => {
+                <button className={props.curentFilter === 'all'? 'button': ''} onClick={() => {
                     props.changeFilter('all')
                 }}>All
                 </button>
-                <button onClick={() => {
+                <button className={props.curentFilter === 'active'? 'button': ''} onClick={() => {
                     props.changeFilter('active')
                 }}>Active
                 </button>
-                <button onClick={() => {
+                <button className={props.curentFilter === 'completed'? 'button': ''} onClick={() => {
                     props.changeFilter('completed')
                 }}>Completed
                 </button>

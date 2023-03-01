@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
 import {filterValuesType} from "../App";
 
-type TodolistPropsType = {
+export type TodolistPropsType = {
     title: string,
     task: Array<TaskType>,
     removeTask: (taskId: string) => void,
@@ -19,8 +19,8 @@ export type TaskType = {
 
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
 
-    let [newTaskTitle, SetNewTaskTitle] = useState<string>('');
-    let [error, setError] = useState<string>('')
+    const [newTaskTitle, SetNewTaskTitle] = useState<string>('');
+    const [error, setError] = useState<string>('')
 
     const addTaskHandler = () => {
         newTaskTitle.trim()? props.addTask(newTaskTitle.trim()) : setError('error')

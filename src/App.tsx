@@ -46,10 +46,13 @@ function App(): JSX.Element {
         )
     ;
 
-    // const [filter, setFilter] = useState<filterValuesType>('all')
+    const removeTodolist = (todoListId: string) => {
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListId));
+        delete tasks[todoListId]
+    }
 
     const changeFilter = (value: filterValuesType, todoListId: string) => {
-        setFilter(value)
+        setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: value} : tl))
     }
 
     const getFilteredTask = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
@@ -62,41 +65,47 @@ function App(): JSX.Element {
         return filteredTasks
     }
 
-    const displayedTasks: Array<TaskType> = getFilteredTask(tasks[todoList_id2], filter)
-
-    function removeTask(taskId: string, todoListId:string ) {
-        setTasks({...tasks,
+    function removeTask(taskId: string, todoListId: string) {
+        setTasks({
+            ...tasks,
             [todoListId]: tasks[todoListId].filter(t => t.id !== taskId)
         })
     }
 
-    function addTask(newTaskTitle: string, todoListId:string) {
+    function addTask(newTaskTitle: string, todoListId: string) {
         const newTask = {id: v1(), title: newTaskTitle, isDone: false}
         setTasks({...tasks, [todoListId]: [newTask, ...tasks[todoListId]]})
     }
 
-    function changeTaskStatus(id: string) {
-        const task = tasks.find(t => t.id === id);
+    function changeTaskStatus(taskId: string, todoListId: string) {
+
+        const task = tasks[todoListId].find(t => t.id === taskId);
         if (task) {
             task.isDone = !task.isDone
         }
-        setTasks([...tasks])
+
+        setTasks({...tasks})
     }
 
     return (
         <div className="App">
             <div className="TodolistContainer">
 
-                {todoLists.map( (tl) => {
-                    return <Todolist title={tl.title}
+                {todoLists.map((tl) => {
+                    const displayedTasks: Array<TaskType> = getFilteredTask(tasks[tl.id], tl.filter)
+                    return <Todolist todoListId={tl.id}
+                                     key={tl.id}
+                                     title={tl.title}
+                                     filter={tl.filter}
                                      task={displayedTasks}
+                                     removeTodolist={removeTodolist}
                                      removeTask={removeTask}
                                      changeFilter={changeFilter}
                                      addTask={addTask}
                                      changeTaskStatus={changeTaskStatus}
-                                     curentFilter={tl.filter}
+                                     currentFilter={tl.filter}
                     />
-                } )}
+                })}
             </div>
         </div>
     );

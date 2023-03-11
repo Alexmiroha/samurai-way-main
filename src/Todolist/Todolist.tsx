@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
 import {filterValuesType} from "../App";
+import AddItemForm from "../AddItemForm/AddItemForm";
 
 export type TodolistPropsType = {
     title: string,
@@ -22,20 +23,6 @@ export type TaskType = {
 
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
 
-    const [newTaskTitle, SetNewTaskTitle] = useState<string>('');
-    const [error, setError] = useState<string>('')
-
-    const addTaskHandler = () => {
-        newTaskTitle.trim() ? props.addTask(newTaskTitle.trim(), props.todoListId) : setError('error')
-        SetNewTaskTitle('');
-    };
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addTaskHandler()
-        }
-    }
-
     const handlerCreator = (filter: filterValuesType) => {
         return () => props.changeFilter(filter, props.todoListId)
     }
@@ -44,14 +31,8 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.changeTaskStatus(id, todoListId)
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.currentTarget.value.trim() === '') {
-            setError('error')
-            SetNewTaskTitle('');
-        } else {
-            SetNewTaskTitle(e.currentTarget.value);
-            setError('')
-        }
+    const AddNewTask = (title:string) => {
+        props.addTask(title, props.todoListId)
     }
 
     const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
@@ -78,19 +59,7 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                 }}>X
                 </button>
             </h3>
-            <div>
-                <input
-                    value={newTaskTitle}
-                    onChange={onChangeHandler}
-                    onKeyPress={onKeyPressHandler}
-                    className={error ? 'errorInput' : ''}
-                />
-                <button onClick={() => {
-                    addTaskHandler()
-                }} disabled={error === 'error'}>+
-                </button>
-                {error ? <div className={error}>Title is required</div> : <div>Add your task</div>}
-            </div>
+            <AddItemForm userTextMaxLength={20} AddNewItemCallback={AddNewTask}/>
             <ul>
                 {taskItems}
             </ul>

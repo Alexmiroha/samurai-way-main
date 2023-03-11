@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist/Todolist";
 import {v1} from "uuid";
+import AddItemForm from "./AddItemForm/AddItemForm";
 
 export type filterValuesType = 'all' | 'active' | 'completed';
 type TodoListType = {
@@ -17,25 +18,15 @@ type TasksStateType = {
 function App(): JSX.Element {
 
     const todoList_id1 = v1();
-    const todoList_id2 = v1();
     const [todoLists, setTodoLists] = useState<Array<TodoListType>>(
         [
-            {id: todoList_id1, title: 'What To learn', filter: 'all'},
-            {id: todoList_id2, title: 'What To buy', filter: 'all'},
+            {id: todoList_id1, title: 'What To buy', filter: 'all'},
         ]
     )
 
     const [tasks, setTasks] = useState<TasksStateType>(
         {
             [todoList_id1]:
-                [
-                    {id: v1(), title: 'HTML & CSS', isDone: true},
-                    {id: v1(), title: 'ES6 & TS', isDone: true},
-                    {id: v1(), title: 'REACT & REDUX', isDone: false},
-                    {id: v1(), title: 'REST API', isDone: false},
-                    {id: v1(), title: 'graphQL', isDone: false}
-                ],
-            [todoList_id2]:
                 [
                     {id: v1(), title: 'Milk', isDone: true},
                     {id: v1(), title: 'Bread', isDone: true},
@@ -45,6 +36,15 @@ function App(): JSX.Element {
         }
         )
     ;
+
+    const AddTodolist = (title:string) => {
+        let newTodolistId = v1()
+        let newTodolist:TodoListType = {id: newTodolistId, title: title, filter: 'all'}
+        setTodoLists([newTodolist, ...todoLists])
+        setTasks({
+            ...tasks, [newTodolistId]: []
+        })
+    }
 
     const removeTodolist = (todoListId: string) => {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListId));
@@ -90,7 +90,7 @@ function App(): JSX.Element {
     return (
         <div className="App">
             <div className="TodolistContainer">
-
+            <AddItemForm userTextMaxLength={15} AddNewItemCallback={AddTodolist} placeholder='Todolist name'/>
                 {todoLists.map((tl) => {
                     const displayedTasks: Array<TaskType> = getFilteredTask(tasks[tl.id], tl.filter)
                     return <Todolist todoListId={tl.id}

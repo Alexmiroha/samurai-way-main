@@ -3,13 +3,14 @@ import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
 type AddItemFormType = {
     userTextMaxLength: number;
     AddNewItemCallback: (title: string) => void
+    placeholder: string
 }
 
 const AddItemForm:FC<AddItemFormType> = (
     {
         userTextMaxLength,
         AddNewItemCallback,
-
+        placeholder,
     }
 ) => {
 
@@ -21,7 +22,7 @@ const AddItemForm:FC<AddItemFormType> = (
         inputTitle = 'your text is empty'
     } else if (error === 'lengthMax') {
         inputTitle = 'Your text is too long'
-    } else inputTitle = 'Item name'
+    } else inputTitle = ''
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.value.trim() === '') {
@@ -37,8 +38,15 @@ const AddItemForm:FC<AddItemFormType> = (
         }
     }
     const addTaskHandler = () => {
-        newInputTitle.trim() && !error ? AddNewItemCallback(newInputTitle.trim()) : setError('emptyTitle')
-        SetNewItemTitle('');
+        if (!newInputTitle.trim()) {
+            setError('emptyTitle')
+        }
+        else if (error === 'lengthMax') {
+        }
+        else {
+            AddNewItemCallback(newInputTitle.trim())
+            SetNewItemTitle('');
+        }
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -47,7 +55,7 @@ const AddItemForm:FC<AddItemFormType> = (
     }
 
 
-    const buttonDisabled = error === 'emptyTitle' || !newInputTitle
+    const buttonDisabled = error === 'emptyTitle' || !newInputTitle || error  === 'lengthMax'
     let inputMessage = <div className={error}>{inputTitle}</div>
 
 
@@ -58,6 +66,7 @@ const AddItemForm:FC<AddItemFormType> = (
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
                 className={error ? 'errorInput' : ''}
+                placeholder={placeholder}
             />
             <button onClick={() => {
                 addTaskHandler()

@@ -59,7 +59,7 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                 }}>X
                 </button>
             </h3>
-            <AddItemForm userTextMaxLength={20} AddNewItemCallback={AddNewTask}/>
+            <AddItemForm userTextMaxLength={20} AddNewItemCallback={AddNewTask} placeholder='Task name'/>
             <ul>
                 {taskItems}
             </ul>

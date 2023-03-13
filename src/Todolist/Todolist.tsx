@@ -38,6 +38,10 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.addTask(title, props.todoListId)
     }
 
+    const onChangeTodolistTitleHandler = (title: string) => {
+        props.changeTodolistTitle(title, props.todoListId)
+    }
+
     const taskItems: JSX.Element[] | JSX.Element = props.tasks.length ?
         props.tasks.map((task) => {
 
@@ -60,7 +64,8 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
 
     return (
         <div className='Todolist'>
-            <h3>{props.title}
+            <h3>
+            <EditableSpan title={props.title} maxLength={15} changeTitle={onChangeTodolistTitleHandler}/>
                 <button onClick={() => {
                     props.removeTodolist(props.todoListId)
                 }}>X

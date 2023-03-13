@@ -25,8 +25,8 @@ const EditableSpan: FC<EditableSpanPropsType> = (
 
     const onInputBlur = () => {
         if (error === 'emptyTitle') {
-            setLocalTitle('noname task')
-            changeTitle('noname task')
+            setLocalTitle(title)
+            changeTitle(title)
         } else if (error === 'longTitle') {
             setLocalTitle(localTitle.slice(0, maxLength))
             changeTitle(localTitle.slice(0, maxLength))

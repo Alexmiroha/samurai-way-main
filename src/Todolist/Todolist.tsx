@@ -8,11 +8,13 @@ export type TodolistPropsType = {
     filter: string,
     removeTodolist: (todoListId: string) => void,
     todoListId: string,
-    task: Array<TaskType>,
+    tasks: Array<TaskType>,
     removeTask: (taskId: string, todoListId: string) => void,
     changeFilter: (value: filterValuesType, todoListId: string) => void,
+    changeTodolistTitle: (title: string, todoListId: string) => void,
     addTask: (newTaskTitle: string, todoListId: string) => void,
     changeTaskStatus: (id: string, todoListId: string) => void,
+    changeTaskTitle: (taskId: string, todoListId: string, title: string) => void,
     currentFilter: string
 }
 
@@ -36,14 +38,18 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.addTask(title, props.todoListId)
     }
 
-    const taskItems: JSX.Element[] | JSX.Element = props.task.length ?
-        props.task.map((task) => {
+    const taskItems: JSX.Element[] | JSX.Element = props.tasks.length ?
+        props.tasks.map((task) => {
+
+            const onChangeTaskTitleHandler = (title: string) => {
+                props.changeTaskTitle(task.id, props.todoListId, title)
+            }
 
             return (
                 <li className={task.isDone ? 'isDone' : ''} key={task.id}>
                     <input type="checkbox" checked={task.isDone}
                            onChange={() => onChangeStatusHandler(task.id, props.todoListId)}/>
-                    <EditableSpan title={task.title} maxLength={15} changeTitle={()=> {}}/>
+                    <EditableSpan title={task.title} maxLength={15} changeTitle={onChangeTaskTitleHandler}/>
                     <button onClick={() => {
                         props.removeTask(task.id, props.todoListId)
                     }}>x

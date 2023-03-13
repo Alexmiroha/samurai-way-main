@@ -55,6 +55,10 @@ function App(): JSX.Element {
         setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: value} : tl))
     }
 
+    const changeTodolistTitle = (title: string, todoListId: string) => {
+        setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: title}: tl))
+    }
+
     const getFilteredTask = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
         let filteredTasks: Array<TaskType>;
         if (filter === 'active') {
@@ -87,6 +91,14 @@ function App(): JSX.Element {
         setTasks({...tasks})
     }
 
+    function changeTaskTitle(taskId: string, todoListId: string, title: string) {
+        const task = tasks[todoListId].find(t => t.id === taskId);
+        if (task) {
+            task.title = title
+        }
+        setTasks({...tasks})
+    }
+
     return (
         <div className="App">
             <div className="TodolistContainer">
@@ -97,12 +109,14 @@ function App(): JSX.Element {
                                      key={tl.id}
                                      title={tl.title}
                                      filter={tl.filter}
-                                     task={displayedTasks}
+                                     tasks={displayedTasks}
                                      removeTodolist={removeTodolist}
                                      removeTask={removeTask}
                                      changeFilter={changeFilter}
+                                     changeTodolistTitle={changeTodolistTitle}
                                      addTask={addTask}
                                      changeTaskStatus={changeTaskStatus}
+                                     changeTaskTitle={changeTaskTitle}
                                      currentFilter={tl.filter}
                     />
                 })}

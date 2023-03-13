@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
 import s from './EditableSpan.module.css'
 
 type EditableSpanPropsType = {
@@ -23,7 +23,7 @@ const EditableSpan: FC<EditableSpanPropsType> = (
         setEditMode(true)
     };
 
-    const onInputBlur = () => {
+    const onChangeHandler = () => {
         if (error === 'emptyTitle') {
             setLocalTitle(title)
             changeTitle(title)
@@ -47,9 +47,15 @@ const EditableSpan: FC<EditableSpanPropsType> = (
         }
     }
 
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onChangeHandler()
+        }
+    }
+
     return (
         <>
-            {editMode ? <input className={error? s.error : s.input} value={localTitle} onChange={changeLocalTitle} autoFocus={true} onBlur={onInputBlur} type="text"/> :
+            {editMode ? <input className={error? s.error : s.input} value={localTitle} onChange={changeLocalTitle} autoFocus={true} onBlur={onChangeHandler} onKeyPress={onKeyPressHandler} type="text"/> :
                 <span onClick={onSpanClick}>{title}</span>}
         </>
     );

@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
 import {filterValuesType} from "../App";
 import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableSpan from "../EditableSpan/EditableSpan";
+import {Button} from "@mui/material";
 
 export type TodolistPropsType = {
     title: string,
@@ -76,18 +77,18 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                 {taskItems}
             </ul>
             <div>
-                <button className={props.currentFilter === 'all' ? 'button' : ''} onClick={
+                <Button className={props.currentFilter === 'all' ? 'button' : ''} onClick={
                     handlerCreator('all')
                 }>All
-                </button>
-                <button className={props.currentFilter === 'active' ? 'button' : ''} onClick={
+                </Button>
+                <Button className={props.currentFilter === 'active' ? 'button' : ''} onClick={
                     handlerCreator('active')
                 }>Active
-                </button>
-                <button className={props.currentFilter === 'completed' ? 'button' : ''} onClick={
+                </Button>
+                <Button className={props.currentFilter === 'completed' ? 'button' : ''} onClick={
                     handlerCreator('completed')
                 }>Completed
-                </button>
+                </Button>
             </div>
         </div>
 

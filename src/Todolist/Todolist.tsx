@@ -77,15 +77,15 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                 {taskItems}
             </ul>
             <div>
-                <Button className={props.currentFilter === 'all' ? 'button' : ''} onClick={
+                <Button variant={props.currentFilter === 'all' ? "contained" : "outlined"} onClick={
                     handlerCreator('all')
                 }>All
                 </Button>
-                <Button className={props.currentFilter === 'active' ? 'button' : ''} onClick={
+                <Button variant={props.currentFilter === 'active' ? "contained" : "outlined"} onClick={
                     handlerCreator('active')
                 }>Active
                 </Button>
-                <Button className={props.currentFilter === 'completed' ? 'button' : ''} onClick={
+                <Button variant={props.currentFilter === 'completed' ? "contained" : "outlined"} onClick={
                     handlerCreator('completed')
                 }>Completed
                 </Button>

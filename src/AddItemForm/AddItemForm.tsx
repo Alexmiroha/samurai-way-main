@@ -1,4 +1,9 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import {IconButton} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import Button from "@mui/material/Button";
+import Input from "@mui/material/Input";
+import TextField from "@mui/material/TextField";
 
 type AddItemFormType = {
     userTextMaxLength: number;
@@ -60,19 +65,22 @@ const AddItemForm:FC<AddItemFormType> = (
 
 
     return (
-        <div>
-            <input
+        <div className={'AddItemForm'}>
+            <TextField
+                size={"small"}
+                variant={"outlined"}
+                label={inputMessage}
+                error={!!error}
                 value={newInputTitle}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
-                className={error ? 'errorInput' : ''}
                 placeholder={placeholder}
             />
-            <button onClick={() => {
+            <Button variant={"contained"} size={"large"} onClick={() => {
                 addTaskHandler()
-            }} disabled={buttonDisabled}>+
-            </button>
-            {inputMessage}
+            }} disabled={buttonDisabled} color={"primary"}>
+                <AddIcon/>
+            </Button>
         </div>
     );
 };

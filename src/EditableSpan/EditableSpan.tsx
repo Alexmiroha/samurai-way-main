@@ -1,5 +1,6 @@
 import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
 import s from './EditableSpan.module.css'
+import {TextField} from "@mui/material";
 
 type EditableSpanPropsType = {
     title: string,
@@ -55,7 +56,7 @@ const EditableSpan: FC<EditableSpanPropsType> = (
 
     return (
         <>
-            {editMode ? <input className={error? s.error : s.input} value={localTitle} onChange={changeLocalTitle} autoFocus={true} onBlur={onChangeHandler} onKeyPress={onKeyPressHandler} type="text"/> :
+            {editMode ? <TextField style={{marginBottom: '10px'}} variant={"standard"} size={"small"} value={localTitle} label={'Item name'} error={!!error} onChange={changeLocalTitle} autoFocus={true} onBlur={onChangeHandler} onKeyPress={onKeyPressHandler} type="text"/> :
                 <span onClick={onSpanClick}>{title}</span>}
         </>
     );

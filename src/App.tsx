@@ -3,6 +3,11 @@ import './App.css';
 import {TaskType, Todolist} from "./Todolist/Todolist";
 import {v1} from "uuid";
 import AddItemForm from "./AddItemForm/AddItemForm";
+import {AppBar} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import {Menu} from "@mui/icons-material";
 
 export type filterValuesType = 'all' | 'active' | 'completed';
 type TodoListType = {
@@ -101,8 +106,23 @@ function App(): JSX.Element {
 
     return (
         <div className="App">
+            <AppBar position="static">
+                <Toolbar variant="dense">
+                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6" color="inherit" component="div">
+                        Todolist
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+
             <div className="TodolistContainer">
-            <AddItemForm userTextMaxLength={15} AddNewItemCallback={AddTodolist} placeholder='Todolist name'/>
+                <Typography style={{marginTop: "18px", marginBottom: '10px'}} variant="h5" color="inherit" component="div">
+                    Add New List
+                    <AddItemForm userTextMaxLength={15} AddNewItemCallback={AddTodolist} placeholder='Todolist name'/>
+                </Typography>
+
                 {todoLists.map((tl) => {
                     const displayedTasks: Array<TaskType> = getFilteredTask(tasks[tl.id], tl.filter)
                     return <Todolist todoListId={tl.id}

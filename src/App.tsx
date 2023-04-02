@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import {Menu} from "@mui/icons-material";
 
 export type filterValuesType = 'all' | 'active' | 'completed';
-type TodoListType = {
+export type TodoListType = {
     id: string,
     title: string,
     filter: string

@@ -9,7 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import {Menu} from "@mui/icons-material";
 
-export type filterValuesType = 'all' | 'active' | 'completed';
+export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodoListType = {
     id: string,
     title: string,
@@ -56,7 +56,7 @@ function App(): JSX.Element {
         delete tasks[todoListId]
     }
 
-    const changeFilter = (value: filterValuesType, todoListId: string) => {
+    const changeFilter = (value: FilterValuesType, todoListId: string) => {
         setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: value} : tl))
     }
 

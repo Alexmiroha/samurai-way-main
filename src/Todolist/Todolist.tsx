@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
-import {filterValuesType} from "../App";
+import {FilterValuesType} from "../App";
 import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableSpan from "../EditableSpan/EditableSpan";
 import Button from "@mui/material/Button";
@@ -20,10 +20,10 @@ export type TodolistPropsType = {
     todoListId: string,
     tasks: Array<TaskType>,
     removeTask: (taskId: string, todoListId: string) => void,
-    changeFilter: (value: filterValuesType, todoListId: string) => void,
+    changeFilter: (value: FilterValuesType, todoListId: string) => void,
     changeTodolistTitle: (title: string, todoListId: string) => void,
     addTask: (newTaskTitle: string, todoListId: string) => void,
-    changeTaskStatus: (id: string, todoListId: string) => void,
+    changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void,
     changeTaskTitle: (taskId: string, todoListId: string, title: string) => void,
     currentFilter: string
 }
@@ -36,12 +36,12 @@ export type TaskType = {
 
 export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
 
-    const handlerCreator = (filter: filterValuesType) => {
+    const handlerCreator = (filter: FilterValuesType) => {
         return () => props.changeFilter(filter, props.todoListId)
     }
 
-    const onChangeStatusHandler = (id: string, todoListId: string) => {
-        props.changeTaskStatus(id, todoListId)
+    const onChangeStatusHandler = (id: string, isDone: boolean, todoListId: string) => {
+        props.changeTaskStatus(id, isDone, todoListId)
     }
 
     const AddNewTask = (title: string) => {
@@ -77,7 +77,7 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
                     <Checkbox size={"small"}
                               color={"primary"}
                               checked={task.isDone}
-                              onChange={() => onChangeStatusHandler(task.id, props.todoListId)}/>
+                              onChange={() => onChangeStatusHandler(task.id, !task.isDone, props.todoListId)}/>
                     <ListItemText>
                         <EditableSpan
                             title={task.title}

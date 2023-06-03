@@ -1,8 +1,6 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
-import {IconButton} from "@mui/material";
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import Button from "@mui/material/Button";
-import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
 
 type AddItemFormType = {
@@ -11,13 +9,15 @@ type AddItemFormType = {
     placeholder: string
 }
 
-const AddItemForm:FC<AddItemFormType> = (
+export const AddItemForm:FC<AddItemFormType> = memo((
     {
         userTextMaxLength,
         AddNewItemCallback,
         placeholder,
     }
 ) => {
+
+    console.log('AddItem form')
 
     let [newInputTitle, SetNewItemTitle] = useState<string>('');
     let [error, setError] = useState<string>('')
@@ -42,7 +42,7 @@ const AddItemForm:FC<AddItemFormType> = (
             setError('')
         }
     }
-    const addTaskHandler = () => {
+    const addItemHandler = () => {
         if (!newInputTitle.trim()) {
             setError('emptyTitle')
         }
@@ -55,7 +55,7 @@ const AddItemForm:FC<AddItemFormType> = (
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            addTaskHandler()
+            addItemHandler()
         }
     }
 
@@ -77,12 +77,12 @@ const AddItemForm:FC<AddItemFormType> = (
                 placeholder={placeholder}
             />
             <Button variant={"contained"} size={"large"} onClick={() => {
-                addTaskHandler()
+                addItemHandler()
             }} disabled={buttonDisabled} color={"primary"}>
                 <AddIcon/>
             </Button>
         </div>
     );
-};
+});
 
 export default AddItemForm;

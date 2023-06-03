@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, FC, useState,} from "react";
+import React, {ChangeEvent, KeyboardEvent, FC, useState, useCallback, memo,} from "react";
 import {FilterValuesType} from "../App";
 import AddItemForm from "../AddItemForm/AddItemForm";
 import EditableSpan from "../EditableSpan/EditableSpan";
@@ -34,7 +34,9 @@ export type TaskType = {
     isDone: boolean
 }
 
-export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.Element => {
+export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): JSX.Element => {
+
+    console.log('Todolist')
 
     const handlerCreator = (filter: FilterValuesType) => {
         return () => props.changeFilter(filter, props.todoListId)
@@ -44,16 +46,30 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         props.changeTaskStatus(id, isDone, todoListId)
     }
 
-    const AddNewTask = (title: string) => {
+    const AddNewTask = useCallback((title: string) => {
         props.addTask(title, props.todoListId)
-    }
+    }, [props.addTask, props.todoListId])
 
     const onChangeTodolistTitleHandler = (title: string) => {
         props.changeTodolistTitle(title, props.todoListId)
     }
 
+    const getFilteredTask = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
+        let filteredTasks: Array<TaskType>;
+        if (filter === 'active') {
+            filteredTasks = tasks.filter(t => !t.isDone)
+        } else if (filter === 'completed') {
+            filteredTasks = tasks.filter(t => t.isDone)
+        } else filteredTasks = tasks;
+        return filteredTasks
+    }
+
+    const displayedTasks: Array<TaskType> = getFilteredTask(props.tasks, props.filter)
+
+
+
     const taskItems: JSX.Element[] | JSX.Element = props.tasks.length ?
-        props.tasks.map((task) => {
+        displayedTasks.map((task) => {
 
             const onChangeTaskTitleHandler = (title: string) => {
                 props.changeTaskTitle(task.id, props.todoListId, title)
@@ -121,4 +137,4 @@ export const Todolist: FC<TodolistPropsType> = (props: TodolistPropsType): JSX.E
         </div>
 
     );
-}
+})

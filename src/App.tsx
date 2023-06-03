@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist/Todolist";
 import {v1} from "uuid";
@@ -37,55 +37,45 @@ function App(): JSX.Element {
     const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    const AddTodolist = (title:string) => {
+    const AddTodolist = useCallback((title:string) => {
         let action = AddTodolistAC(title)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    const removeTodolist = (todoListId: string) => {
+    const removeTodolist = useCallback((todoListId: string) => {
         let action = RemoveTodolistAC(todoListId)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    const changeFilter = (value: FilterValuesType, todoListId: string) => {
+    const changeFilter = useCallback((value: FilterValuesType, todoListId: string) => {
         let action = ChangeTodolistFilterAC(todoListId, value)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    const changeTodolistTitle = (title: string, todoListId: string) => {
+    const changeTodolistTitle = useCallback((title: string, todoListId: string) => {
         let action = ChangeTodolistTitleAC(todoListId, title)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    const getFilteredTask = (tasks: Array<TaskType>, filter: string): Array<TaskType> => {
-        let filteredTasks: Array<TaskType>;
-        if (filter === 'active') {
-            filteredTasks = tasks.filter(t => !t.isDone)
-        } else if (filter === 'completed') {
-            filteredTasks = tasks.filter(t => t.isDone)
-        } else filteredTasks = tasks;
-        return filteredTasks
-    }
-
-    function removeTask(taskId: string, todoListId: string) {
+    const removeTask = useCallback((taskId: string, todoListId: string) => {
         let action = RemoveTaskAC(taskId, todoListId)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    function addTask(newTaskTitle: string, todoListId: string) {
+    const addTask = useCallback((newTaskTitle: string, todoListId: string) => {
         let action = AddTaskAC(newTaskTitle, todoListId)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {
+    const changeTaskStatus = useCallback((taskId: string, isDone: boolean, todoListId: string) => {
         let action = ChangeTaskStatusAC(taskId, isDone, todoListId)
         dispatch(action)
-    }
+    }, [dispatch])
 
-    function changeTaskTitle(taskId: string, todoListId: string, title: string) {
+    const changeTaskTitle = useCallback((taskId: string, todoListId: string, title: string) => {
         let action = ChangeTaskTitleAC(taskId, todoListId, title)
         dispatch(action)
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -107,12 +97,11 @@ function App(): JSX.Element {
                 </Typography>
 
                 {todoLists.map((tl) => {
-                    const displayedTasks: Array<TaskType> = getFilteredTask(tasks[tl.id], tl.filter)
                     return <Todolist todoListId={tl.id}
                                      key={tl.id}
                                      title={tl.title}
                                      filter={tl.filter}
-                                     tasks={displayedTasks}
+                                     tasks={tasks[tl.id]}
                                      removeTodolist={removeTodolist}
                                      removeTask={removeTask}
                                      changeFilter={changeFilter}

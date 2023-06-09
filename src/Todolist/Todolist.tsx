@@ -38,9 +38,9 @@ export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): 
 
     console.log('Todolist')
 
-    const handlerCreator = (filter: FilterValuesType) => {
-        return () => props.changeFilter(filter, props.todoListId)
-    }
+    const onAllClickHandler = useCallback( () => props.changeFilter('all', props.todoListId), [props.changeFilter, props.todoListId])
+    const onActiveClickHandler = useCallback( () => props.changeFilter('active', props.todoListId), [props.changeFilter, props.todoListId])
+    const onCompletedClickHandler = useCallback( () => props.changeFilter('completed', props.todoListId), [props.changeFilter, props.todoListId])
 
     const onChangeStatusHandler = (id: string, isDone: boolean, todoListId: string) => {
         props.changeTaskStatus(id, isDone, todoListId)
@@ -65,7 +65,6 @@ export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): 
     }
 
     const displayedTasks: Array<TaskType> = getFilteredTask(props.tasks, props.filter)
-
 
 
     const taskItems: JSX.Element[] | JSX.Element = props.tasks.length ?
@@ -107,7 +106,8 @@ export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): 
 
     return (
         <div className='Todolist'>
-            <Typography style={{display: 'flex', justifyContent: 'space-around'}} variant="h5" color="inherit" component="div">
+            <Typography style={{display: 'flex', justifyContent: 'space-around'}} variant="h5" color="inherit"
+                        component="div">
                 <EditableSpan title={props.title} maxLength={15} changeTitle={onChangeTodolistTitleHandler}/>
                 <IconButton color={"error"} size={"small"} onClick={() => {
                     props.removeTodolist(props.todoListId)
@@ -120,21 +120,37 @@ export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): 
                 {taskItems}
             </List>
             <div className={s.filterButtonsContainer}>
-                <Button variant={props.currentFilter === 'all' ? "contained" : "outlined"} size={"small"} onClick={
-                    handlerCreator('all')
-                }>All
-                </Button>
-                <Button variant={props.currentFilter === 'active' ? "contained" : "outlined"} size={"small"} onClick={
-                    handlerCreator('active')
-                }>Active
-                </Button>
-                <Button variant={props.currentFilter === 'completed' ? "contained" : "outlined"} size={"small"}
-                        onClick={
-                            handlerCreator('completed')
-                        }>Completed
-                </Button>
+                <ButtonWithMemo title={'All'}
+                                variant={props.currentFilter === 'all' ? "contained" : "outlined"}
+                                onClick={onAllClickHandler}
+                />
+                <ButtonWithMemo title={'Active'}
+                                variant={props.currentFilter === 'active' ? "contained" : "outlined"}
+                                onClick={onActiveClickHandler}
+                />
+                <ButtonWithMemo title={'Completed'}
+                                variant={props.currentFilter === 'completed' ? "contained" : "outlined"}
+                                onClick={onCompletedClickHandler}
+                />
             </div>
         </div>
 
     );
+})
+
+
+type ButtonWithMemoPropsType = {
+    title: string,
+    onClick: () => void,
+    variant: "contained" | "outlined",
+
+}
+
+const ButtonWithMemo = memo((props: ButtonWithMemoPropsType) => {
+    return (
+        <Button variant={props.variant} size={"small"}
+                onClick={
+                    props.onClick
+                }>{props.title}
+        </Button>)
 })

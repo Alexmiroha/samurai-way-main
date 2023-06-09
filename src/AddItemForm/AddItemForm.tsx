@@ -17,8 +17,6 @@ export const AddItemForm:FC<AddItemFormType> = memo((
     }
 ) => {
 
-    console.log('AddItem form')
-
     let [newInputTitle, SetNewItemTitle] = useState<string>('');
     let [error, setError] = useState<string>('')
 

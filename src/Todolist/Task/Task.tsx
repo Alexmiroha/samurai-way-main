@@ -17,8 +17,6 @@ type TaskPropsType = {
 
 export const Task = memo((props: TaskPropsType) => {
 
-    console.log('Task')
-
     const removeTaskHandler = useCallback(() => {
         props.removeTask(props.task.id)
     }, [props.removeTask, props.task.id])

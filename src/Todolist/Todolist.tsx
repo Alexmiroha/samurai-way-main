@@ -37,8 +37,6 @@ export type TaskType = {
 
 export const Todolist: FC<TodolistPropsType> = memo((props: TodolistPropsType): JSX.Element => {
 
-    console.log('Todolist')
-
     const onAllClickHandler = useCallback(() => props.changeFilter('all', props.todoListId), [props.changeFilter, props.todoListId])
     const onActiveClickHandler = useCallback(() => props.changeFilter('active', props.todoListId), [props.changeFilter, props.todoListId])
     const onCompletedClickHandler = useCallback(() => props.changeFilter('completed', props.todoListId), [props.changeFilter, props.todoListId])

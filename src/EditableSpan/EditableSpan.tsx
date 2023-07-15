@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import s from './EditableSpan.module.css'
 import {TextField} from "@mui/material";
 
@@ -8,7 +8,7 @@ type EditableSpanPropsType = {
     changeTitle: (title: string) => void
 }
 
-const EditableSpan: FC<EditableSpanPropsType> = (
+export const EditableSpan: FC<EditableSpanPropsType> = memo((
     {
         title,
         maxLength,
@@ -60,6 +60,6 @@ const EditableSpan: FC<EditableSpanPropsType> = (
                 <span onClick={onSpanClick}>{title}</span>}
         </>
     );
-};
+},);
 
 export default EditableSpan;

@@ -1,6 +1,7 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {action} from '@storybook/addon-actions'
 import {Task} from './Task';
+import {useState} from "react";
 
 // More on how to set up stories at:
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -38,4 +39,20 @@ export const TaskIsDoneStory: Story = {
     },
 };
 
-// 1:28:24
+const TaskToggle = () => {
+
+    const [task, setTask] = useState({id: 'qwrfsdtsdt', title: 'JS', isDone: true})
+
+    return <Task
+        task={task}
+        removeTask={action('removeTask')}
+        changeTaskStatus={() => setTask({...task, isDone: !task.isDone})}
+        changeTaskTitle={(taskId, newTitle) => setTask({...task, title: newTitle})}
+        key={task.id}/>
+}
+
+export const TaskToggleStory: Story = {
+    render: () => <TaskToggle/>
+};
+
+// 2:05:40
